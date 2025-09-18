@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>심사 진행 - 해커톤 심사 시스템</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 영역 -->
+        <div class="header">
+            <h1>🏆 해커톤 심사 진행</h1>
+            <div id="judgeInfo" class="subtitle">
+                <span id="judgeName">로딩 중...</span>
+                <button id="logoutBtn" class="btn" style="margin-left: 20px; padding: 5px 15px; font-size: 0.9rem;">
+                    로그아웃
+                </button>
+            </div>
+        </div>
+
+        <!-- 현재 모드 표시 -->
+        <div class="mode-indicator" id="modeIndicator">
+            <h2 id="modeTitle">1차 심사 (발표 당시)</h2>
+            <p id="modeDescription">별점으로 각 심사 기준에 대해 점수를 매겨주세요</p>
+        </div>
+
+        <!-- 진행률 표시 -->
+        <div class="progress-indicator" id="progressIndicator">
+            <div class="progress-text" id="progressText">진행률: 0/10팀 완료</div>
+        </div>
+
+        <!-- 메인 콘텐츠 영역 -->
+        <div class="main-content">
+            <!-- 왼쪽: 별표 순서 박스들 -->
+            <div class="judge-area" id="judgeArea">
+                <!-- 동적으로 생성됨 -->
+            </div>
+
+            <!-- 오른쪽: 심사 기준 패널 -->
+            <div class="criteria-panel" id="criteriaPanel">
+                <h3 style="margin-bottom: 1.5rem; color: #333; text-align: center;">심사 기준</h3>
+                <div id="criteriaList">
+                    <!-- 동적으로 생성됨 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 모드 전환 버튼 영역 -->
+        <div class="mode-switch" id="modeSwitch">
+            <button id="switchModeBtn" class="btn btn-secondary" style="margin-right: 10px;">
+                보정하기
+            </button>
+            <button id="finalSubmitBtn" class="btn btn-success" style="display: none;">
+                최종 제출하기
+            </button>
+        </div>
+
+        <!-- 최종 제출 완료 메시지 -->
+        <div class="card" id="submissionComplete" style="display: none; text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🎉</div>
+            <h2 style="color: #4facfe; margin-bottom: 1rem;">심사 완료!</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                모든 심사가 성공적으로 완료되었습니다.<br>
+                고생하셨습니다!
+            </p>
+            <button onclick="window.location.href='index.html'" class="btn">
+                로그인 페이지로 돌아가기
+            </button>
+        </div>
+    </div>
+
+    <!-- 확인 모달 -->
+    <div id="confirmModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 2rem; border-radius: 15px; max-width: 400px; text-align: center; margin: 20px;">
+            <h3 id="modalTitle" style="margin-bottom: 1rem;"></h3>
+            <p id="modalMessage" style="margin-bottom: 2rem; color: #666;"></p>
+            <div>
+                <button id="modalCancel" class="btn" style="margin-right: 10px; background: #ccc;">취소</button>
+                <button id="modalConfirm" class="btn btn-secondary">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 제출 완료 알림 모달 -->
+    <div id="submitSuccessModal" class="submit-success-modal" style="display: none;">
+        <div class="submit-success-content">
+            <div class="success-icon">✅</div>
+            <h2>심사 제출 완료!</h2>
+            <p>모든 심사가 성공적으로 제출되었습니다.</p>
+            <div class="success-timer">3초 후 완료 화면으로 이동합니다...</div>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/judge.js"></script>
+</body>
+</html>
