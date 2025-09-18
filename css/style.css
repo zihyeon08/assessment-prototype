@@ -156,6 +156,16 @@ body {
     color: #ffed4e;
 }
 
+.star.disabled {
+    color: var(--light-gray) !important;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+.star.disabled:hover {
+    color: var(--light-gray) !important;
+}
+
 /* 점수 표시 */
 .score-display {
     background: var(--primary-gold);
@@ -324,13 +334,13 @@ body {
     background: var(--primary-gold);
     color: var(--dark-gray);
     border: 2px solid var(--primary-gold);
-    padding: 2px 8px;
+    padding: 8px 12px;
     border-radius: 10px;
-    font-size: 0.8rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    min-width: 35px;
+    min-width: 60px;
     text-align: center;
-    width: 45px;
+    width: 70px;
 }
 
 .box-score-input:focus {
@@ -597,4 +607,166 @@ body {
     font-weight: 600;
     font-size: 0.95rem;
     border: 1px solid var(--primary-gold);
+}
+
+/* 최종 점수 요약 스타일 */
+.final-scores-summary {
+    text-align: left;
+    margin: 2rem 0;
+}
+
+.summary-header h3 {
+    color: var(--dark-gray);
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-bottom: 2px solid var(--primary-gold);
+    padding-bottom: 0.5rem;
+}
+
+.teams-scores {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.team-score-card {
+    background: var(--extra-light-gray);
+    border: 1px solid var(--light-gray);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.team-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    background: var(--primary-gold-light);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+}
+
+.team-rank {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+}
+
+.team-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+/* 순위별 특별 스타일 */
+.rank-first {
+    border: 2px solid #ffd700;
+    background: #fffef7;
+}
+
+.rank-first .team-header {
+    background: linear-gradient(135deg, #ffd700, #ffed4a);
+}
+
+.rank-second {
+    border: 2px solid #c0c0c0;
+    background: #f9f9f9;
+}
+
+.rank-second .team-header {
+    background: linear-gradient(135deg, #c0c0c0, #e5e5e5);
+}
+
+.rank-third {
+    border: 2px solid #cd7f32;
+    background: #fefbf7;
+}
+
+.rank-third .team-header {
+    background: linear-gradient(135deg, #cd7f32, #daa520);
+}
+
+.criteria-scores {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.criterion-score {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3rem 0.5rem;
+    background: var(--white);
+    border-radius: 4px;
+    border: 1px solid var(--light-gray);
+}
+
+.criterion-name {
+    font-size: 0.85rem;
+    color: var(--medium-gray);
+}
+
+.score-value {
+    font-weight: 600;
+    color: var(--dark-gray);
+    font-size: 0.9rem;
+}
+
+.total-score-display {
+    text-align: center;
+    background: var(--primary-gold);
+    color: var(--dark-gray);
+    padding: 0.6rem;
+    border-radius: 6px;
+    font-size: 1.1rem;
+}
+
+.summary-footer {
+    border-top: 2px solid var(--primary-gold);
+    padding-top: 1rem;
+}
+
+.overall-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    text-align: center;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--medium-gray);
+}
+
+.stat-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+    .criteria-scores {
+        grid-template-columns: 1fr;
+    }
+
+    .overall-stats {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .team-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
 }

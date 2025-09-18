@@ -142,13 +142,13 @@ function createBoxCriteriaRow(team, criterion) {
             </div>
         `;
     } else {
-        // 보정 모드: 별점 유지 + 점수 직접 입력
+        // 보정 모드: 별점 비활성화 + 점수 직접 입력
         return `
             <div class="box-criteria-item">
                 <div class="box-criteria-name">${criterion.name}</div>
                 <div class="box-criteria-controls">
                     <div class="box-star-rating" data-team="${team.id}" data-criterion="${criterion.id}">
-                        ${createStarRating(currentStars)}
+                        ${createStarRating(currentStars, true)}
                     </div>
                     <input type="number"
                            class="box-score-input"
@@ -578,13 +578,118 @@ function showSubmitSuccessModal() {
             modal.style.display = 'none';
 
             // 완료 화면 표시
-            document.getElementById('teamsContainer').style.display = 'none';
+            document.querySelector('.main-content').style.display = 'none';
             document.getElementById('modeSwitch').style.display = 'none';
-            document.getElementById('criteriaGuide').style.display = 'none';
             document.getElementById('progressIndicator').style.display = 'none';
+
+            // 최종 점수 요약 생성 및 삽입
+            const finalScoresSummary = generateFinalScoresSummary();
+            document.getElementById('finalScoresSummary').innerHTML = finalScoresSummary;
+
             document.getElementById('submissionComplete').style.display = 'block';
         }
     }, 1000);
+}
+
+// 최종 점수 요약 생성
+function generateFinalScoresSummary() {
+    // 완료된 팀들의 점수와 순위 계산
+    const completedTeams = APP_DATA.teams
+        .filter(team => isTeamCompleted(team.id))
+        .map(team => ({
+            ...team,
+            scores: judgeScores[team.id],
+            totalScore: Utils.calculateTotalScore(judgeScores[team.id])
+        }))
+        .sort((a, b) => b.totalScore - a.totalScore); // 점수 높은 순으로 정렬
+
+    let summaryHtml = `
+        <div class="summary-header">
+            <h3>${currentJudge.name} 심사위원 최종 점수 및 순위</h3>
+        </div>
+        <div class="teams-scores">
+    `;
+
+    // 순위별로 팀 표시
+    completedTeams.forEach((team, index) => {
+        const rank = index + 1;
+        const rankEmoji = getRankEmoji(rank);
+
+        summaryHtml += `
+            <div class="team-score-card ${getRankClass(rank)}">
+                <div class="team-header">
+                    <div class="team-rank">${rankEmoji} ${rank}위</div>
+                    <div class="team-name">${team.name}</div>
+                </div>
+                <div class="criteria-scores">
+        `;
+
+        // 각 심사 기준별 점수
+        APP_DATA.criteria.forEach(criterion => {
+            const score = team.scores[criterion.id] || 0;
+            summaryHtml += `
+                <div class="criterion-score">
+                    <span class="criterion-name">${criterion.name}</span>
+                    <span class="score-value">${score}점</span>
+                </div>
+            `;
+        });
+
+        summaryHtml += `
+                </div>
+                <div class="total-score-display">
+                    <strong>총점: ${team.totalScore}점</strong>
+                </div>
+            </div>
+        `;
+    });
+
+    // 전체 평균 점수 계산
+    const totalAverage = completedTeams.length > 0
+        ? Math.round(completedTeams.reduce((sum, team) => sum + team.totalScore, 0) / completedTeams.length)
+        : 0;
+
+    summaryHtml += `
+        </div>
+        <div class="summary-footer">
+            <div class="overall-stats">
+                <div class="stat-item">
+                    <span class="stat-label">심사 완료 팀수</span>
+                    <span class="stat-value">${completedTeams.length}팀</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">평균 점수</span>
+                    <span class="stat-value">${totalAverage}점</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">최고 점수</span>
+                    <span class="stat-value">${completedTeams.length > 0 ? completedTeams[0].totalScore : 0}점</span>
+                </div>
+            </div>
+        </div>
+    `;
+
+    return summaryHtml;
+}
+
+// 순위에 따른 이모지 반환
+function getRankEmoji(rank) {
+    switch(rank) {
+        case 1: return '🥇';
+        case 2: return '🥈';
+        case 3: return '🥉';
+        default: return '🏅';
+    }
+}
+
+// 순위에 따른 CSS 클래스 반환
+function getRankClass(rank) {
+    switch(rank) {
+        case 1: return 'rank-first';
+        case 2: return 'rank-second';
+        case 3: return 'rank-third';
+        default: return '';
+    }
 }
 
 // 모달 표시

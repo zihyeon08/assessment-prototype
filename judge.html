@@ -59,12 +59,18 @@
         <!-- 최종 제출 완료 메시지 -->
         <div class="card" id="submissionComplete" style="display: none; text-align: center;">
             <div style="font-size: 3rem; margin-bottom: 1rem;">🎉</div>
-            <h2 style="color: #4facfe; margin-bottom: 1rem;">심사 완료!</h2>
-            <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+            <h2 style="color: var(--dark-gray); margin-bottom: 1rem;">심사 완료!</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem; color: var(--medium-gray);">
                 모든 심사가 성공적으로 완료되었습니다.<br>
                 고생하셨습니다!
             </p>
-            <button onclick="window.location.href='index.html'" class="btn">
+
+            <!-- 최종 점수 요약 -->
+            <div id="finalScoresSummary" class="final-scores-summary">
+                <!-- 동적으로 생성됨 -->
+            </div>
+
+            <button onclick="window.location.href='index.html'" class="btn" style="margin-top: 2rem;">
                 로그인 페이지로 돌아가기
             </button>
         </div>
